@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "564290356611",
+    "project_id": "crts-637d6",
+    "storage_bucket": "crts-637d6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:564290356611:android:9c35d33ec5c5bcc09ee2b6",
+        "android_client_info": {
+          "package_name": "com.example.crts"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "564290356611-h4ibn33lr11gnfqv3rkcm0d9emnc2fsf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCWll_SopkFUePTsKghmKrxJ_RdqRp4v3c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "564290356611-h4ibn33lr11gnfqv3rkcm0d9emnc2fsf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
