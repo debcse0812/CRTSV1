@@ -7,12 +7,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
-
-import com.goodiebag.pinview.Pinview;
+import com.chaos.view.PinView;
 
 public class VerifyOTP extends AppCompatActivity {
 
-    private Pinview pinView;
+    private PinView pinView;
     private Button verifyButton;
 
     @Override
@@ -30,7 +29,7 @@ public class VerifyOTP extends AppCompatActivity {
 
         // starting the current intent with
         Intent intent = getIntent();
-        String value = intent.getStringExtra("key"); //phone number.
+        String phoneNumber = intent.getStringExtra("key"); //phone number.
 
         pinView = findViewById(R.id.otpPinView);
         verifyButton = findViewById(R.id.verifyButton);
@@ -38,7 +37,7 @@ public class VerifyOTP extends AppCompatActivity {
         verifyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(VerifyOTP.this, "OTP verified!!!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(VerifyOTP.this, "OTP verified for "+ phoneNumber+".", Toast.LENGTH_SHORT).show();
             }
         });
 

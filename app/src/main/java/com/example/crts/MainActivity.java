@@ -30,22 +30,34 @@ public class MainActivity extends AppCompatActivity {
         // initializing the variables
         phoneNumber = findViewById(R.id.phoneNumberEditText);
         sendButton = findViewById(R.id.sendButton);
+        phoneNumber.setSelection(0); // cursor position
 
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String number = phoneNumber.getText().toString();
-                Toast.makeText(MainActivity.this, "OTP sent", Toast.LENGTH_SHORT).show();
+                if(isValidPhoneNUmber(number)) {
+                    Toast.makeText(MainActivity.this, "OTP sent", Toast.LENGTH_SHORT).show();
 
-                // going to verify otp class
-                Intent myIntent = new Intent(MainActivity.this, VerifyOTP.class);
-                myIntent.putExtra("key", number);
-                MainActivity.this.startActivity(myIntent);
+                    // going to verify otp class
+                    Intent myIntent = new Intent(MainActivity.this, VerifyOTP.class);
+                    myIntent.putExtra("key", number);
+                    MainActivity.this.startActivity(myIntent);
+                }else {
+                    Toast.makeText(MainActivity.this, "Enter a valid phone number", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
 
 
+
+    }
+
+    private boolean isValidPhoneNUmber(String phoneNumber){
+        if(phoneNumber.length()!=10) return false;
+        String regex = "[6-9][0-9]{9}";
+        return(phoneNumber.matches(regex));
 
     }
 }
