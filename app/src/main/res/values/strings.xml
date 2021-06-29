@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">CRTS</string>
+    <string name="sampleNumber">8486129510</string>
+    <string name="login_page">Login Page</string>
 </resources>
