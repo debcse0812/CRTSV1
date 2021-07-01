@@ -9,6 +9,8 @@ import android.widget.Button;
 import android.widget.Toast;
 import com.chaos.view.PinView;
 
+import java.util.Objects;
+
 public class VerifyOTP extends AppCompatActivity {
 
     private PinView pinView;
@@ -21,7 +23,7 @@ public class VerifyOTP extends AppCompatActivity {
         // removing the toolbar
         try
         {
-            this.getSupportActionBar().hide();
+            Objects.requireNonNull(this.getSupportActionBar()).hide();
         }
         catch (NullPointerException e){
             Toast.makeText(this, "Error Loading The App!!!", Toast.LENGTH_SHORT).show();
@@ -34,11 +36,14 @@ public class VerifyOTP extends AppCompatActivity {
         pinView = findViewById(R.id.otpPinView);
         verifyButton = findViewById(R.id.verifyButton);
 
-        verifyButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(VerifyOTP.this, "OTP verified for "+ phoneNumber+".", Toast.LENGTH_SHORT).show();
-            }
+        verifyButton.setOnClickListener(view -> {
+            Toast.makeText(VerifyOTP.this, "OTP verified for "+ phoneNumber+".", Toast.LENGTH_SHORT).show();
+            // after OTP verification, we'll move to userHome Activity:
+
+            // going to user home activity
+            Intent myIntent = new Intent(VerifyOTP.this, UserHomeActivity.class);
+            myIntent.putExtra("key", phoneNumber);
+            VerifyOTP.this.startActivity(myIntent);
         });
 
     }
