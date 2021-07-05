@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    >
+
+    <TextView
+        android:id="@+id/welcome"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Welcome to home screen"
+        android:textStyle="bold"
+        android:textSize="30sp"
+        tools:ignore="HardcodedText" />
+
+    <TextView
+        android:id="@+id/appDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="70dp"
+        android:text="CRTS the app of complaint managment."
+        android:textSize="25sp"
+        tools:ignore="HardcodedText" />
+    <TextView
+        android:id="@+id/phoneNumber"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="150dp"
+        android:hint="Phone number"
+        android:textSize="25sp"
+        tools:ignore="HardcodedText" />
+
+
+
+</RelativeLayout>
