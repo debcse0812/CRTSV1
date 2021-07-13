@@ -128,75 +128,47 @@
                 android:layout_weight="1"
                 android:onClick="onRadioClicked"
                 android:tag="complaint_type_civil"
-                android:text="CIVIL"
+                android:text="Civil"
                 android:layout_marginRight="@dimen/text_margin" />
 
             <RadioButton
-                android:id="@+id/radio_mechanical"
+                android:id="@+id/radio_electrical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:onClick="onRadioClicked"
-                android:tag="complaint_type_mechanical"
-                android:text="MECHANICAL" />
-
+                android:tag="complaint_type_electrical"
+                android:text="Electrical" />
+            <RadioButton
+                android:id="@+id/radio_other"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="onRadioClicked"
+                android:tag="complaint_type_other"
+                android:text="Other" />
         </RadioGroup>
 
-        <TextView
-            android:id="@+id/textView4"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/text_margin"
-            android:layout_marginRight="@dimen/text_margin"
-            android:layout_marginBottom="@dimen/option_margin"
-            android:layout_weight="1"
-            android:ems="10"
-            android:paddingLeft="4sp"
-            android:paddingRight="4sp"
-            android:text="Issue"
-            android:textAppearance="@style/TextAppearance.Design.Counter"
-            android:textColor="?android:attr/textColorHint" />
+            android:layout_height="match_parent"
+            android:layout_weight="1">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/text_margin"
-            android:layout_marginRight="@dimen/text_margin"
-            android:layout_weight="1"
-            android:orientation="horizontal"
-            android:paddingBottom="@dimen/text_margin">
-
-            <CheckBox
-                android:id="@+id/check_pipeline"
-                android:layout_width="wrap_content"
+            <EditText
+                android:id="@+id/edit_complaint_detail"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/text_margin"
-                android:layout_marginRight="@dimen/text_margin"
-                android:onClick="onCheckClicked"
-                android:tag="pipe"
-                android:text="Pipeline" />
+                android:layout_margin="@dimen/text_margin"
+                android:layout_weight="1"
+                android:autofillHints=""
+                android:ems="10"
+                android:hint="@string/h_complaint_detail"
+                android:inputType="text"
+                android:tag="address"
+                android:textAlignment="viewStart"
+                android:gravity="start" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-            <CheckBox
-                android:id="@+id/check_water"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/text_margin"
-                android:layout_marginRight="@dimen/text_margin"
-                android:onClick="onCheckClicked"
-                android:tag="water"
-                android:text="Water" />
-
-            <CheckBox
-                android:id="@+id/check_door"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/text_margin"
-                android:layout_marginRight="@dimen/text_margin"
-                android:onClick="onCheckClicked"
-                android:tag="door"
-                android:text="Door" />
-
-        </LinearLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
@@ -222,10 +194,10 @@
 
 
         <Button
+            android:id="@+id/submitButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="submit"
-            android:id="@+id/submitButton"
             android:layout_gravity="center"/>
 
     </LinearLayout>

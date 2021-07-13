@@ -5,5 +5,8 @@
     <string name="nav_open">Open</string>
     <string name="nav_close">Close</string>
     <string name="h_address">Address</string>
+    <string name="h_complaint_detail">Complaint Detail</string>
     <string name="spinner_title">Select Issue</string>
+    <string name="already_verified_phone"><u>Skip, Phone Already Verified</u>.
+    </string>
 </resources>
