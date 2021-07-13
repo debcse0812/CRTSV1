@@ -19,8 +19,8 @@ public class UserHomeActivity extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle actionBarDrawerToggle;
-    private TextView text;
-    private Button homeButton, plusButton, helpButton;
+    private TextView textView;
+    private Button plusButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,12 +41,12 @@ public class UserHomeActivity extends AppCompatActivity {
         // to make the Navigation drawer icon always appear on the action bar
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
-        text = findViewById(R.id.text);
-        text.setText(phoneNumber);
+        textView = findViewById(R.id.textView);
+        textView.setText(phoneNumber);
 
-        homeButton = findViewById(R.id.homeButton);
+//        homeButton = findViewById(R.id.homeButton);
         plusButton = findViewById(R.id.plusButton);
-        helpButton = findViewById(R.id.helpButton);
+//        helpButton = findViewById(R.id.helpButton);
 
         plusButton.setOnClickListener(view -> {
             Toast.makeText(UserHomeActivity.this, "Fill the form for a new complaint.", Toast.LENGTH_SHORT).show();

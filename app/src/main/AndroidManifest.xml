@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CRTS">
         <activity android:name=".ComplaintFormActivity"/>
-        <activity android:name=".UserHomeActivity" />
+        <activity android:name=".UserHomeActivity"/>
         <activity android:name=".WelcomeSplash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
