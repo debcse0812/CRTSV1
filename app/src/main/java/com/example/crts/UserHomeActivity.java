@@ -13,6 +13,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.util.Objects;
 
 public class UserHomeActivity extends AppCompatActivity {
@@ -20,7 +22,7 @@ public class UserHomeActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle actionBarDrawerToggle;
     private TextView textView;
-    private Button plusButton;
+    private FloatingActionButton plusButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +31,9 @@ public class UserHomeActivity extends AppCompatActivity {
 
         // starting the current intent with
         Intent intent = getIntent();
-        String phoneNumber = intent.getStringExtra("key"); //phone number.
+        Bundle bundle = intent.getExtras();
+        String phoneNumber = bundle.getString("phone"); //phone number.
+        String userToken = bundle.getString("userToken"); // userToken
 
         // Setting up the side navigation bar:
         drawerLayout = findViewById(R.id.user_home_drawer_layout);
@@ -51,14 +55,23 @@ public class UserHomeActivity extends AppCompatActivity {
         plusButton.setOnClickListener(view -> {
             Toast.makeText(UserHomeActivity.this, "Fill the form for a new complaint.", Toast.LENGTH_SHORT).show();
 
-            // going to user home Complaint Form Activity
+            // going to Complaint Form Activity
             Intent myIntent = new Intent(UserHomeActivity.this, ComplaintFormActivity.class);
-            myIntent.putExtra("key", phoneNumber);
+            myIntent.putExtra("phone", phoneNumber);
+            myIntent.putExtra("userToken", userToken);
             UserHomeActivity.this.startActivity(myIntent);
         });
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // disable transition when coming back from an activity
+        overridePendingTransition(0, 0);
+    }
+
+    // Using the side navigation menu:
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(actionBarDrawerToggle.onOptionsItemSelected(item))

@@ -7,7 +7,6 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:id="@+id/user_home_drawer_layout"
-    android:background="@color/colorPrimaryDark"
     tools:context=".MainActivity"
     tools:ignore="HardCodedText">
     <LinearLayout
@@ -24,17 +23,18 @@
                 android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:text="TextView" />
 
-            <Button
-                android:id="@+id/plusButton"
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom|center"
-                android:text="+"
-                android:textSize="28sp"
-                android:textStyle="bold"/>
-
+                android:id="@+id/plusButton"
+                android:src="@drawable/ic_add"
+                android:layout_gravity="bottom|end"
+                android:layout_margin="20dp"
+                android:elevation="20dp"
+                />
 
         </FrameLayout>
 

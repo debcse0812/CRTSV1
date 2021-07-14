@@ -121,9 +121,13 @@ public class MainActivity extends AppCompatActivity {
                 response -> {
                     try {
                         if(response.getBoolean("success")){
+                            // Save the token received for further application of this particular user
+                            String token = response.getString("token");
+
                             // Move on to UserHomeActivity
                             Intent myIntent = new Intent(MainActivity.this, UserHomeActivity.class);
-                            myIntent.putExtra("key", number);
+                            myIntent.putExtra("phone", number);
+                            myIntent.putExtra("userToken", token);
                             MainActivity.this.startActivity(myIntent);
                             finish();
                         }else{
