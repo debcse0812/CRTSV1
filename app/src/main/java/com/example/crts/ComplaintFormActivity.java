@@ -48,7 +48,7 @@ public class ComplaintFormActivity extends AppCompatActivity {
         // starting the current intent with
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
-        String phone = bundle.getString("phone"); //phone number.
+        phone = bundle.getString("phone"); //phone number.
         userToken = bundle.getString("userToken"); // userToken
 
         // setting the phone no from the previous activity in the editText

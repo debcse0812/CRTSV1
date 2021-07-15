@@ -5,31 +5,23 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
 import com.android.volley.RetryPolicy;
 import com.android.volley.ServerError;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.chaos.view.PinView;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
@@ -78,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
             if(isValidPhoneNUmber(number)) {
                 number = "+91" + number;
                 Toast.makeText(MainActivity.this, "Sending OTP... ", Toast.LENGTH_SHORT).show();
+                //start otp verification process
                 sendVerificationCode(number);
             }else {
                 Toast.makeText(MainActivity.this, "Please enter a valid number", Toast.LENGTH_SHORT).show();
@@ -90,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "Enter a valid OTP", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(MainActivity.this, "Verifying OTP...", Toast.LENGTH_SHORT).show();
-
+                //verifying the otp that is sent
                 verifyCode(verification);
             }
         });
@@ -198,6 +191,9 @@ public class MainActivity extends AppCompatActivity {
         public void onCodeSent(@NonNull String s, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
             super.onCodeSent(s, forceResendingToken);
             verificationId = s;
+            // start showing the pin view and verify button
+            OTP.setVisibility(View.VISIBLE);
+            verifyButton.setVisibility(View.VISIBLE);
         }
         // this method is called when user
         // receive OTP from Firebase.
