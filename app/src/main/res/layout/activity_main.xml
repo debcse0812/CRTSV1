@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:layout_gravity="center_horizontal|center_vertical"
+    tools:context=".MainActivity"
+    tools:ignore="HardcodedText">
 
     <ImageView
         android:layout_width="match_parent"
@@ -25,13 +27,13 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="72dp"
         android:layout_marginLeft="72dp"
-        android:layout_marginTop="364dp"
+        android:layout_marginTop="328dp"
         android:layout_marginEnd="72dp"
         android:layout_marginRight="72dp"
         android:autofillHints="@string/sampleNumber"
         android:gravity="center_horizontal"
         android:hint="@string/sampleNumber"
-        android:inputType="numberSigned"
+        android:inputType="phone"
         android:maxLength="10"
         android:textAlignment="center"
         android:textSize="40sp"
@@ -51,6 +53,53 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/phoneNumberEditText"
-        app:layout_constraintVertical_bias="0.248" />
+        app:layout_constraintVertical_bias="0.035" />
+
+    <com.chaos.view.PinView
+        android:id="@+id/otpPinView"
+        style="@style/PinWidget.PinView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@color/purple_500"
+        android:inputType="number"
+        android:padding="10dp"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        app:itemCount="6"
+        app:itemHeight="48dp"
+        app:itemRadius="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.719"
+        app:lineColor="@android:color/darker_gray"
+        app:viewType="rectangle" />
+
+    <Button
+        android:id="@+id/verifyButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_gradient"
+        android:text="Verify"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/otpPinView"
+        app:layout_constraintVertical_bias="0.171" />
+
+    <TextView
+        android:id="@+id/alreadyVerifiedPhone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="112dp"
+        android:layout_marginLeft="112dp"
+        android:layout_marginTop="12dp"
+        android:text="@string/already_verified_phone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/verifyButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
