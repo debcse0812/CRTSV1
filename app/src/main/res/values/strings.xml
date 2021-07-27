@@ -9,4 +9,7 @@
     <string name="spinner_title">Select Issue</string>
     <string name="already_verified_phone"><u>Skip, Phone Already Verified</u>.
     </string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="no_complaint_registered"> You have no complaint registered. \n\n Click on the plus button below to register a new complaint.</string>
+    <string name="add_complaint">Add Complaint</string>
 </resources>

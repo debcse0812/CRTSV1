@@ -48,14 +48,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        // removing the toolbar
-        try
-        {
-            Objects.requireNonNull(this.getSupportActionBar()).hide();
-        }
-        catch (NullPointerException e){
-            Toast.makeText(this, "Error Loading The App!!!", Toast.LENGTH_SHORT).show();
-        }
+
         // initializing the variables
         phoneNumber = findViewById(R.id.phoneNumberEditText);
         sendButton = findViewById(R.id.sendButton);
@@ -192,6 +185,7 @@ public class MainActivity extends AppCompatActivity {
             super.onCodeSent(s, forceResendingToken);
             verificationId = s;
             // start showing the pin view and verify button
+            Toast.makeText(MainActivity.this, "Enter OTP to verify", Toast.LENGTH_SHORT).show();
             OTP.setVisibility(View.VISIBLE);
             verifyButton.setVisibility(View.VISIBLE);
         }

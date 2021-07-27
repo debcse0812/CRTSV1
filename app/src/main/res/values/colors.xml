@@ -15,4 +15,16 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="green">#88C34A</color>
+    <color name="orange">#D1A522</color>
+    <color name="red">#E34439</color>
+    <color name="darkblue">#03A9F4</color>
+    
+    <integer-array name="allcolors">
+        <item>@color/green</item>
+        <item>@color/orange</item>
+        <item>@color/red</item>
+        <item>@color/darkblue</item>
+    </integer-array>
 </resources>

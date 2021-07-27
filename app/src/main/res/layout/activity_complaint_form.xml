@@ -13,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+        <include layout="@layout/app_bar_layout"/>
 
 
 
@@ -31,7 +32,7 @@
                 android:layout_weight="1"
                 android:autofillHints=""
                 android:ems="10"
-                android:hint="Your Name"
+                android:hint="Enter Name"
                 android:inputType="textPersonName"
                 android:tag="name" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -129,7 +130,7 @@
                 android:onClick="onRadioClicked"
                 android:tag="complaint_type_civil"
                 android:text="Civil"
-                android:layout_marginRight="@dimen/text_margin" />
+                tools:ignore="UsingOnClickInXml" />
 
             <RadioButton
                 android:id="@+id/radio_electrical"
@@ -138,7 +139,8 @@
                 android:layout_weight="1"
                 android:onClick="onRadioClicked"
                 android:tag="complaint_type_electrical"
-                android:text="Electrical" />
+                android:text="Electrical"
+                tools:ignore="UsingOnClickInXml" />
             <RadioButton
                 android:id="@+id/radio_other"
                 android:layout_width="wrap_content"
@@ -146,7 +148,8 @@
                 android:layout_weight="1"
                 android:onClick="onRadioClicked"
                 android:tag="complaint_type_other"
-                android:text="Other" />
+                android:text="Other"
+                tools:ignore="UsingOnClickInXml" />
         </RadioGroup>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -188,7 +191,8 @@
                 android:hint="Date"
                 android:inputType="date"
                 android:onClick="showDateDialog"
-                android:tag="start_date" />
+                android:tag="start_date"
+                tools:ignore="UsingOnClickInXml" />
 
         </com.google.android.material.textfield.TextInputLayout>
 

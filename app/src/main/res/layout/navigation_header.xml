@@ -1,16 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-android:layout_height="200dp"
-android:id="@+id/nav_header_main">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="200dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_header_main"
+    android:background="@drawable/header_background"
+    tools:ignore="HardcodedText">
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:src="@drawable/img_shadow"
+        android:contentDescription="shadowing the image to make other things visible"
+        />
     <ImageView
         android:layout_width="100dp"
         android:layout_height="100dp"
+        android:id="@+id/crts_logo"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="75dp"
-        android:layout_marginLeft="75dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="30dp"
         android:contentDescription="@string/app_name"
         android:src="@drawable/crts_logo" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/welcome"
+        android:layout_below="@+id/crts_logo"
+        android:text="Welcome To CRTS"
+        android:textColor="@color/white"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="70dp"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/phone"
+        android:layout_below="@+id/welcome"
+        android:text="+917002457828"
+        android:textColor="@color/white"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="77dp"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        />
+
 </RelativeLayout>
