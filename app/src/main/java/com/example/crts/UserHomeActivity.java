@@ -74,10 +74,12 @@ public class UserHomeActivity extends AppCompatActivity {
     private void setDrawerClick(int itemId) {
         switch (itemId){
             case R.id.action_home: {
+                break;
+            }
+            case R.id.action_refresh: {
                 getSupportFragmentManager().beginTransaction().replace(R.id.content, HomeFragment.newInstance(phoneNumber,userToken)).commit();
                 break;
             }
-            case R.id.action_refresh: break; //refresh clicked
             case R.id.action_share: break; //share clicked
             case R.id.action_exit: {
                 Toast.makeText(this, "Goodbye!", Toast.LENGTH_SHORT).show();

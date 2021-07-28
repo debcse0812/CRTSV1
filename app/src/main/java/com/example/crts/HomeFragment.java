@@ -25,6 +25,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.crts.Adapters.ComplaintListAdapter;
 import com.example.crts.complaintModel.ComplaintsModel;
+import com.example.crts.interfaces.RecyclerViewClickListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONArray;
@@ -33,6 +34,7 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -41,7 +43,7 @@ import java.util.Map;
  * Use the {@link HomeFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements RecyclerViewClickListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -113,6 +115,7 @@ public class HomeFragment extends Fragment {
     private void getComplaints() {
         arrayList = new ArrayList<>();
         progressBar.setVisibility(View.VISIBLE);
+//        Collections.sort(arrayList);
         String url = "https://crtsapp.herokuapp.com/api/complaint/";
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
@@ -141,7 +144,8 @@ public class HomeFragment extends Fragment {
 
                                 arrayList.add(complaintsModel);
                             }
-                            complaintListAdapter = new ComplaintListAdapter(getActivity(), arrayList);
+                            Collections.sort(arrayList,ComplaintsModel.complaintsModelComparator); // sort the arrayList according to date
+                            complaintListAdapter = new ComplaintListAdapter(getActivity(), arrayList, HomeFragment.this);
                             recyclerView.setAdapter(complaintListAdapter);
                         }
                         progressBar.setVisibility(View.GONE);
@@ -184,5 +188,34 @@ public class HomeFragment extends Fragment {
 
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
         requestQueue.add(jsonObjectRequest);
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        Toast.makeText(getActivity(), "Position= "+position, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onLongItemClick(int position) {
+        Toast.makeText(getActivity(), "Position= "+position, Toast.LENGTH_SHORT).show();
+
+    }
+
+    @Override
+    public void editButtonClick(int position) {
+        Toast.makeText(getActivity(), "Email = "+ arrayList.get(position).getEmail(), Toast.LENGTH_SHORT).show();
+
+    }
+
+    @Override
+    public void deleteButtonClick(int position) {
+        Toast.makeText(getActivity(), "Position= "+position, Toast.LENGTH_SHORT).show();
+
+    }
+
+    @Override
+    public void doneButtonClick(int position) {
+        Toast.makeText(getActivity(), "Position= "+position, Toast.LENGTH_SHORT).show();
+
     }
 }

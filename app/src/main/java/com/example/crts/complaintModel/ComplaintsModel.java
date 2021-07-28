@@ -1,5 +1,9 @@
 package com.example.crts.complaintModel;
 
+import com.example.crts.Adapters.ComplaintListAdapter;
+
+import java.util.Comparator;
+
 public class ComplaintsModel {
     private String cid, name, email, address, c_type, c_detail, date, status, assigned_to, feedback, resolved_on;
 
@@ -16,7 +20,24 @@ public class ComplaintsModel {
         this.feedback = feedback;
         this.resolved_on = resolved_on;
     }
+    // overriding the Method of Comparator class to sort the arrayList according to date.
+    public static Comparator<ComplaintsModel> complaintsModelComparator = new Comparator<ComplaintsModel>() {
+        @Override
+        public int compare(ComplaintsModel t1, ComplaintsModel t2) {
+            String date1 = t1.getDate();
+            String date2 = t2.getDate();
+            date1 = date1.replaceAll("[^0-9]", "");
+            date2 = date2.replaceAll("[^0-9]", "");
 
+            date1 = date1.substring(4) + date1.substring(0, 4);
+            date2 = date2.substring(4) + date2.substring(0, 4);
+
+            return (stringToNum(date2)-stringToNum(date1));
+        }
+    };
+    public static int stringToNum(String a){
+        return Integer.parseInt(a);
+    }
     public String getCid() {
         return cid;
     }

@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.crts.R;
 import com.example.crts.complaintModel.ComplaintsModel;
+import com.example.crts.interfaces.RecyclerViewClickListener;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -21,10 +22,14 @@ import java.util.Random;
 public class ComplaintListAdapter extends RecyclerView.Adapter<ComplaintListAdapter.MyViewHolder> {
 
     ArrayList<ComplaintsModel> arrayList;
+
     Context context;
-    public ComplaintListAdapter(Context context, ArrayList<ComplaintsModel> arrayList) {
+    final private RecyclerViewClickListener clickListener;
+
+    public ComplaintListAdapter(Context context, ArrayList<ComplaintsModel> arrayList, RecyclerViewClickListener clickListener) {
         this.arrayList = arrayList;
         this.context = context;
+        this.clickListener = clickListener;
     }
 
     @NonNull
@@ -38,6 +43,18 @@ public class ComplaintListAdapter extends RecyclerView.Adapter<ComplaintListAdap
         int boxColor = allColors[new Random().nextInt(allColors.length)];
 
         myViewHolder.accordian_title.setBackgroundColor(boxColor);
+
+        myViewHolder.arrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(myViewHolder.accordian_body.getVisibility() == View.VISIBLE){
+                    myViewHolder.accordian_body.setVisibility(View.GONE);
+                }else {
+                    myViewHolder.accordian_body.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
         return myViewHolder;
     }
 
@@ -88,14 +105,44 @@ public class ComplaintListAdapter extends RecyclerView.Adapter<ComplaintListAdap
             editBtn = itemView.findViewById(R.id.editBtn);
             doneBtn = itemView.findViewById(R.id.doneBtn);
 
-
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    clickListener.onItemClick(getAdapterPosition());
+                }
+            });
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    clickListener.onLongItemClick(getAdapterPosition());
+                    return true;
+                }
+            });
+            editBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    clickListener.editButtonClick(getAdapterPosition());
+                }
+            });
+            deleteBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    clickListener.deleteButtonClick(getAdapterPosition());
+                }
+            });
+            doneBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    clickListener.doneButtonClick(getAdapterPosition());
+                }
+            });
         }
     }
     private static String hashCID(String cid){
         int mod = 100003;
         int hash = 7;
         for (int i = 0; i < cid.length(); i++) {
-            hash = (hash*31 + cid.charAt(i))%mod;
+            hash = ((hash * 31) + cid.charAt(i)) % mod;
         }
         return String.valueOf(hash);
     }
