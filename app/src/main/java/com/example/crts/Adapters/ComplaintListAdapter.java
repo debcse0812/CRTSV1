@@ -66,6 +66,7 @@ public class ComplaintListAdapter extends RecyclerView.Adapter<ComplaintListAdap
         final String complaint_type = arrayList.get(position).getC_type();
         final String complaint_detail = arrayList.get(position).getC_detail();
         final String complaint_status = arrayList.get(position).getStatus();
+        final String address = arrayList.get(position).getAddress();
         // hashed the cid using a hash function:
         cid = hashCID(cid);
 
@@ -75,6 +76,7 @@ public class ComplaintListAdapter extends RecyclerView.Adapter<ComplaintListAdap
         holder.complaint_detail.setText("Complaint Detail: " + complaint_detail);
         holder.complaint_status.setText("Status: " + complaint_status);
         holder.registered_by.setText("Registered By: " + registered_by);
+        holder.address.setText("Address: " + address);
     }
 
     @Override
@@ -85,9 +87,9 @@ public class ComplaintListAdapter extends RecyclerView.Adapter<ComplaintListAdap
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         CardView accordian_title;
-        TextView cid, registration_date, complaint_type, complaint_detail, complaint_status, registered_by;
+        TextView cid, registration_date, complaint_type, complaint_detail, complaint_status, registered_by, address;
         RelativeLayout accordian_body;
-        ImageView arrow, deleteBtn, editBtn, doneBtn;
+        ImageView arrow, deleteBtn, editBtn;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -98,12 +100,12 @@ public class ComplaintListAdapter extends RecyclerView.Adapter<ComplaintListAdap
             complaint_detail = itemView.findViewById(R.id.complaint_detail);
             complaint_status = itemView.findViewById(R.id.complaint_status);
             registered_by = itemView.findViewById(R.id.name);
+            address = itemView.findViewById(R.id.address);
             accordian_body = itemView.findViewById(R.id.accordian_body);
 
             arrow = itemView.findViewById(R.id.arrow);
             deleteBtn = itemView.findViewById(R.id.deleteBtn);
             editBtn = itemView.findViewById(R.id.editBtn);
-            doneBtn = itemView.findViewById(R.id.doneBtn);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -128,12 +130,6 @@ public class ComplaintListAdapter extends RecyclerView.Adapter<ComplaintListAdap
                 @Override
                 public void onClick(View view) {
                     clickListener.deleteButtonClick(getAdapterPosition());
-                }
-            });
-            doneBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    clickListener.doneButtonClick(getAdapterPosition());
                 }
             });
         }

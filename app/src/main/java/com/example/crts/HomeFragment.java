@@ -1,5 +1,7 @@
 package com.example.crts;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -10,16 +12,21 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
 import com.android.volley.RetryPolicy;
 import com.android.volley.ServerError;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
@@ -197,25 +204,195 @@ public class HomeFragment extends Fragment implements RecyclerViewClickListener 
 
     @Override
     public void onLongItemClick(int position) {
-        Toast.makeText(getActivity(), "Position= "+position, Toast.LENGTH_SHORT).show();
-
+//        Toast.makeText(getActivity(), "Position= "+position, Toast.LENGTH_SHORT).show();
+        editButtonClick(position);
     }
 
     @Override
     public void editButtonClick(int position) {
-        Toast.makeText(getActivity(), "Email = "+ arrayList.get(position).getEmail(), Toast.LENGTH_SHORT).show();
+    //        Toast.makeText(getActivity(), "Email = "+ arrayList.get(position).getEmail(), Toast.LENGTH_SHORT).show();
+        String status = arrayList.get(position).getStatus();
+        String complaintID = arrayList.get(position).getCid();
+        String complaintDetail = arrayList.get(position).getC_detail();
+        String name = arrayList.get(position).getName();
+        String address = arrayList.get(position).getAddress();
 
+        if(isStatusRegistered(status)==false){
+            Toast.makeText(getActivity(), "Cannot edit an Assigned/Resolved complaint.", Toast.LENGTH_SHORT).show();
+            return;
+        }else showUpdateDialog(complaintID, name, address, complaintDetail);
     }
 
     @Override
     public void deleteButtonClick(int position) {
-        Toast.makeText(getActivity(), "Position= "+position, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getActivity(), "Position= "+position, Toast.LENGTH_SHORT).show();
+        String status = arrayList.get(position).getStatus();
+        String complaintID = arrayList.get(position).getCid();
+        if(isStatusRegistered(status)==false){
+            Toast.makeText(getActivity(), "Cannot delete an Assigned/Resolved complaint.", Toast.LENGTH_SHORT).show();
+            return;
+        }else showDeleteDialog(complaintID, position);
+    }
+
+    private boolean isStatusRegistered(String status) {
+        return status.equals("Registered");
+    }
+    private void showUpdateDialog(final String complaintID, String name, String address, String complaintDetail) {
+        LayoutInflater inflater = getLayoutInflater();
+        View alertLayout = inflater.inflate(R.layout.edit_dialog_layout, null);
+
+        final EditText nameEditText = alertLayout.findViewById(R.id.name);
+        final EditText addressEditText = alertLayout.findViewById(R.id.address);
+        final EditText complaint_detailEditText = alertLayout.findViewById(R.id.complaint_detail);
+
+        nameEditText.setText(name);
+        addressEditText.setText(address);
+        complaint_detailEditText.setText(complaintDetail);
+
+        final AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
+                .setView(alertLayout)
+                .setTitle("Edit Complaint")
+                .setPositiveButton("Update",null)
+                .setNegativeButton("Cancel", null)
+                .create();
+        alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialogInterface) {
+                Button button = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
+                button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        String edited_name = nameEditText.getText().toString();
+                        String edited_address = addressEditText.getText().toString();
+                        String edited_complaint = complaint_detailEditText.getText().toString();
+
+                        updateComplaintInDatabase(complaintID, edited_name, edited_address, edited_complaint);
+//                        Toast.makeText(getActivity(), edited_name + " \n" + edited_address + "\n " +edited_complaint, Toast.LENGTH_SHORT).show();
+                        alertDialog.dismiss();
+                    }
+                });
+            }
+        });
+        alertDialog.show();
+    }
+    // Updating the complaint using API
+    private void showDeleteDialog(String complaintID, int position) {
+
+        final AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
+                .setTitle("Are you sure you want to delete the complaint ?")
+                .setPositiveButton("Yes", null)
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+//                        getComplaints();
+                    }
+                })
+                .create();
+
+        alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialog) {
+                Button button = ((AlertDialog)alertDialog).getButton(AlertDialog.BUTTON_POSITIVE);
+                button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        deleteComplaint(complaintID, position);
+                        alertDialog.dismiss();
+                    }
+                });
+            }
+        });
+
+        alertDialog.show();
 
     }
 
-    @Override
-    public void doneButtonClick(int position) {
-        Toast.makeText(getActivity(), "Position= "+position, Toast.LENGTH_SHORT).show();
+    private void deleteComplaint(String complaintID, int position) {
+
+
+        String url = "https://crtsapp.herokuapp.com/api/complaint/"+complaintID;
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.DELETE, url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            if(response.getBoolean("success")){
+                                Toast.makeText(getActivity(), response.getString("msg"), Toast.LENGTH_SHORT).show();
+                                arrayList.remove(position);
+                                complaintListAdapter.notifyItemRemoved(position);
+                            }
+                        } catch (JSONException jsonException) {
+                            jsonException.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(10000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+        requestQueue.add(jsonObjectRequest);
 
     }
+
+    private void updateComplaintInDatabase(String complaintID, String name, String address, String complaint) {
+
+        HashMap<String,String> body = new HashMap<String, String>();
+
+        body.put("name", name);
+        body.put("address", address);
+        body.put("c_detail", complaint);
+//        Toast.makeText(getActivity(), new JSONObject(body).toString(), Toast.LENGTH_SHORT).show();
+
+        String url = "https://crtsapp.herokuapp.com/api/complaint/"+complaintID;
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.PUT, url, new JSONObject(body),
+                new Response.Listener<JSONObject>() {
+                @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            if(response.getBoolean("success")){
+                                getComplaints();
+                                Toast.makeText(getActivity(), response.getString("msg"), Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (JSONException jsonException) {
+                            jsonException.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+//                    Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_SHORT).show();
+                    NetworkResponse response = error.networkResponse;
+                    if(error instanceof ServerError && response!=null){
+                        try {
+                            String res = new String(response.data, HttpHeaderParser.parseCharset(response.headers, "utf-8"));
+                            JSONObject obj = new JSONObject(res);
+                            getComplaints();
+                            Toast.makeText(getActivity(), obj.getString("msg"), Toast.LENGTH_SHORT).show();
+
+                        }catch (JSONException | UnsupportedEncodingException jsonException){
+                            jsonException.printStackTrace();
+                        }
+                    }
+                }
+                })
+        {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("Content-Type", "application/json");
+                params.put("Authorization", userToken);
+                return params;
+            }
+        };
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(10000,
+                                        DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                                        DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+        requestQueue.add(jsonObjectRequest);
+    }
+
 }

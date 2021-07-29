@@ -91,11 +91,24 @@
             android:layout_height="wrap_content"
             android:id="@+id/name"
             android:textColor="#FFF"
-            android:text="Registered By: Jakaria Hussain"
+            android:text="Registered By: Your Name"
             android:layout_marginLeft="25dp"
             android:layout_marginRight="20dp"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="10dp"
+            android:ellipsize="end"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/address"
+            android:textColor="#FFF"
+            android:text="Address: Your Address"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="10dp"
+            android:layout_below="@+id/name"
             android:ellipsize="end"
             />
         <ImageView
@@ -115,14 +128,6 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
             android:id="@+id/editBtn"/>
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_done"
-            android:layout_toStartOf="@+id/editBtn"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="10dp"
-            android:id="@+id/doneBtn"/>
 
 
     </RelativeLayout>

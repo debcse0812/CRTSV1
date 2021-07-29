@@ -7,5 +7,4 @@ public interface RecyclerViewClickListener {
 
     void editButtonClick(int position);
     void deleteButtonClick(int position);
-    void doneButtonClick(int position);
 }
