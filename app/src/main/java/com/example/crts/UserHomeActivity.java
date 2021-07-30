@@ -14,12 +14,27 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.widget.Toolbar;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public class UserHomeActivity extends AppCompatActivity {
@@ -29,6 +44,7 @@ public class UserHomeActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private NavigationView navigationView;
 
+    private TextView userPhoneInNavHeader;
     String phoneNumber, userToken;
 
     @Override
@@ -51,6 +67,11 @@ public class UserHomeActivity extends AppCompatActivity {
         // set our custom toolbar:
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
+
+        // setting user phone number in the side nav bar header
+        View headerView = navigationView.getHeaderView(0);
+        userPhoneInNavHeader = headerView.findViewById(R.id.phone);
+        userPhoneInNavHeader.setText(phoneNumber);
 
         // Getting the side navigation buttons to provide functionality:
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -80,20 +101,30 @@ public class UserHomeActivity extends AppCompatActivity {
                 getSupportFragmentManager().beginTransaction().replace(R.id.content, HomeFragment.newInstance(phoneNumber,userToken)).commit();
                 break;
             }
-            case R.id.action_share: break; //share clicked
             case R.id.action_exit: {
                 Toast.makeText(this, "Goodbye!", Toast.LENGTH_SHORT).show();
                 finishAndRemoveTask();
                 break;
+            }
+            case R.id.action_help: {
+                onCall(); // it's used to take permission and make a phone call if granted
             }
             case R.id.action_logout: {
                 startActivity(new Intent(UserHomeActivity.this, MainActivity.class));
                 finish();
                 break; // all complaint clicked
             }
-            case R.id.action_help: {
-                onCall(); // it's used to take permission and make a phone call if granted
+            case R.id.action_share: {
+                Intent appShareIntent = new Intent(Intent.ACTION_SEND);
+                appShareIntent.setType("text/plain");
+                String shareBody = "Hey, Try this awesome app to register your complaints and get them resolved faster.\nClick here: https://1fyo.short.gy/Q5p2VE";
+                appShareIntent.putExtra(Intent.EXTRA_TEXT, shareBody);
+                startActivity(Intent.createChooser(appShareIntent, "Share via"));
+                break;
             }
+
+
+
         }
     }
 
@@ -139,5 +170,17 @@ public class UserHomeActivity extends AppCompatActivity {
         if(actionBarDrawerToggle.onOptionsItemSelected(item))
             return true;
         return super.onOptionsItemSelected(item);
+    }
+    private long pressedTime;
+    @Override
+    public void onBackPressed() {
+
+        if (pressedTime + 2000 > System.currentTimeMillis()) {
+            super.onBackPressed();
+            finish();
+        } else {
+            Toast.makeText(getBaseContext(), "Press back again to exit", Toast.LENGTH_SHORT).show();
+        }
+        pressedTime = System.currentTimeMillis();
     }
 }

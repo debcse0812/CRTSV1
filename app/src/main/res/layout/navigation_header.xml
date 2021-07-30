@@ -39,7 +39,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/phone"
         android:layout_below="@+id/welcome"
-        android:text="+917002457828"
+        android:text="+917YYYZZZAAA"
         android:textColor="@color/white"
         android:layout_marginTop="5dp"
         android:layout_marginStart="77dp"

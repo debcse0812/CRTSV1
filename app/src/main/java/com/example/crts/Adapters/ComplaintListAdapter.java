@@ -35,11 +35,11 @@ public class ComplaintListAdapter extends RecyclerView.Adapter<ComplaintListAdap
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.single_complaint_item,parent,false );
+        View pView = LayoutInflater.from(context).inflate(R.layout.single_complaint_item,parent,false );
 
-        final MyViewHolder myViewHolder = new MyViewHolder(view);
+        final MyViewHolder myViewHolder = new MyViewHolder(pView);
 
-        int[] allColors = view.getResources().getIntArray(R.array.allcolors);
+        int[] allColors = pView.getResources().getIntArray(R.array.allcolors);
         int boxColor = allColors[new Random().nextInt(allColors.length)];
 
         myViewHolder.accordian_title.setBackgroundColor(boxColor);
@@ -74,7 +74,7 @@ public class ComplaintListAdapter extends RecyclerView.Adapter<ComplaintListAdap
         holder.registration_date.setText("Registered On: " + registration_date);
         holder.complaint_type.setText("Complaint Type: " + complaint_type);
         holder.complaint_detail.setText("Complaint Detail: " + complaint_detail);
-        holder.complaint_status.setText("Status: " + complaint_status);
+        holder.complaint_status.setText("Status: " + complaint_status); // we can update color etc depending on the compliant status.
         holder.registered_by.setText("Registered By: " + registered_by);
         holder.address.setText("Address: " + address);
     }

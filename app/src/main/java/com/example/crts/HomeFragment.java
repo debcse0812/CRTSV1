@@ -151,6 +151,7 @@ public class HomeFragment extends Fragment implements RecyclerViewClickListener 
 
                                 arrayList.add(complaintsModel);
                             }
+                            contentToBeDisplayed(); // shows empty message is arrayList is empty
                             Collections.sort(arrayList,ComplaintsModel.complaintsModelComparator); // sort the arrayList according to date
                             complaintListAdapter = new ComplaintListAdapter(getActivity(), arrayList, HomeFragment.this);
                             recyclerView.setAdapter(complaintListAdapter);
@@ -199,7 +200,7 @@ public class HomeFragment extends Fragment implements RecyclerViewClickListener 
 
     @Override
     public void onItemClick(int position) {
-        Toast.makeText(getActivity(), "Position= "+position, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getActivity(), "Position= "+position, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -319,6 +320,7 @@ public class HomeFragment extends Fragment implements RecyclerViewClickListener 
                             if(response.getBoolean("success")){
                                 Toast.makeText(getActivity(), response.getString("msg"), Toast.LENGTH_SHORT).show();
                                 arrayList.remove(position);
+                                contentToBeDisplayed(); // shows empty message is arrayList is empty
                                 complaintListAdapter.notifyItemRemoved(position);
                             }
                         } catch (JSONException jsonException) {
@@ -354,6 +356,7 @@ public class HomeFragment extends Fragment implements RecyclerViewClickListener 
                         try {
                             if(response.getBoolean("success")){
                                 getComplaints();
+                                contentToBeDisplayed(); // shows empty message is arrayList is empty
                                 Toast.makeText(getActivity(), response.getString("msg"), Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException jsonException) {
@@ -371,6 +374,7 @@ public class HomeFragment extends Fragment implements RecyclerViewClickListener 
                             String res = new String(response.data, HttpHeaderParser.parseCharset(response.headers, "utf-8"));
                             JSONObject obj = new JSONObject(res);
                             getComplaints();
+                            contentToBeDisplayed(); // shows empty message is arrayList is empty
                             Toast.makeText(getActivity(), obj.getString("msg"), Toast.LENGTH_SHORT).show();
 
                         }catch (JSONException | UnsupportedEncodingException jsonException){
@@ -394,5 +398,13 @@ public class HomeFragment extends Fragment implements RecyclerViewClickListener 
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
         requestQueue.add(jsonObjectRequest);
     }
-
+    private void contentToBeDisplayed(){
+        if(arrayList.size() == 0){
+            recyclerView.setVisibility(View.GONE);
+            emptyTextView.setVisibility(View.VISIBLE);
+        }else {
+            recyclerView.setVisibility(View.VISIBLE);
+            emptyTextView.setVisibility(View.GONE);
+        }
+    }
 }
