@@ -40,6 +40,8 @@ public class ComplaintFormActivity extends AppCompatActivity {
 
     // Declaring the editText that are to be received from user input:
     private EditText edit_name, edit_phone, edit_email, edit_add, edit_complaint_detail, edit_date;
+
+    Button submitButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,7 +67,7 @@ public class ComplaintFormActivity extends AppCompatActivity {
 
 
         // final submit button:
-        Button submitButton = findViewById(R.id.submitButton);
+        submitButton = findViewById(R.id.submitButton);
         submitButton.setOnClickListener(view -> {
 
             // initializing the input variables to be stored in the database:
@@ -90,7 +92,8 @@ public class ComplaintFormActivity extends AppCompatActivity {
 
             // make a post request to store the in the database:
             addNewComplaint();
-
+            //disable button to make sure multiple complaints are not registered at a time
+            submitButton.setEnabled(false);
         });
     }
 
@@ -124,9 +127,11 @@ public class ComplaintFormActivity extends AppCompatActivity {
 
                         }else{
                             Toast.makeText(ComplaintFormActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
+                            submitButton.setEnabled(true);
                         }
                     } catch (JSONException jsonException) {
                         jsonException.printStackTrace();
+                        submitButton.setEnabled(true);
                     }
                 },
                 error -> {
@@ -142,6 +147,7 @@ public class ComplaintFormActivity extends AppCompatActivity {
                             jsonException.printStackTrace();
                         }
                     }
+                    submitButton.setEnabled(true);
                 }
         ){
             @Override

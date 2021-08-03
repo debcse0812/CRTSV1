@@ -140,6 +140,8 @@ public class ComplaintListAdapter extends RecyclerView.Adapter<ComplaintListAdap
         for (int i = 0; i < cid.length(); i++) {
             hash = ((hash * 31) + cid.charAt(i)) % mod;
         }
-        return String.valueOf(hash);
+
+        String hashVal = String.format("%05d",hash);
+        return hashVal;
     }
 }
