@@ -108,6 +108,7 @@ public class UserHomeActivity extends AppCompatActivity {
             }
             case R.id.action_help: {
                 onCall(); // it's used to take permission and make a phone call if granted
+                break;
             }
             case R.id.action_logout: {
                 startActivity(new Intent(UserHomeActivity.this, MainActivity.class));

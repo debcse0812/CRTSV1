@@ -187,7 +187,11 @@ public class ComplaintFormActivity extends AppCompatActivity {
     // for setting date in UI and updating the date variable:
     public void onDateSet(DatePicker datePicker, int y, int m, int d) {
         // If done picking date
-        String date_picked = d + "/" + (m+1) + "/" + y;
+        m = m+1; // m is taken from 0, hence increase by one
+        String dd = (d/10==0?("0"+d):String.valueOf(d));
+        String mm = (m/10==0?("0"+m):String.valueOf(m));
+
+        String date_picked = dd + "/" + mm + "/" + y;
         date = date_picked;
         edit_date.setText(date_picked);
     }

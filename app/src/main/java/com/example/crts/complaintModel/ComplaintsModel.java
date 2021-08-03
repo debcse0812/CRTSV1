@@ -2,6 +2,8 @@ package com.example.crts.complaintModel;
 
 import com.example.crts.Adapters.ComplaintListAdapter;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Comparator;
 
 public class ComplaintsModel {
@@ -26,11 +28,19 @@ public class ComplaintsModel {
         public int compare(ComplaintsModel t1, ComplaintsModel t2) {
             String date1 = t1.getDate();
             String date2 = t2.getDate();
+
+            SimpleDateFormat fromUser = new SimpleDateFormat("dd/MM/yyyy");
+            SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+            try {
+                date1 = myFormat.format(fromUser.parse(date1));
+                date2 = myFormat.format(fromUser.parse(date2));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
             date1 = date1.replaceAll("[^0-9]", "");
             date2 = date2.replaceAll("[^0-9]", "");
-
-            date1 = date1.substring(4) + date1.substring(0, 4);
-            date2 = date2.substring(4) + date2.substring(0, 4);
 
             return (stringToNum(date2)-stringToNum(date1));
         }
