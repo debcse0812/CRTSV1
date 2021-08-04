@@ -5,31 +5,43 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.os.Looper;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
-import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
+
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NetworkResponse;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.RetryPolicy;
+import com.android.volley.ServerError;
+import com.android.volley.toolbox.HttpHeaderParser;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
 import java.util.Calendar;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 public class ComplaintFormActivity extends AppCompatActivity {
 
     // Declaring the input variables from the user in the form:
-    private String name, phone, email, address, complaint_type, complaint_detail, date;
+    private String userToken, name, phone, email, address, complaint_type, complaint_detail, date;
 
     // Declaring the editText that are to be received from user input:
     private EditText edit_name, edit_phone, edit_email, edit_add, edit_complaint_detail, edit_date;
+
+    Button submitButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,7 +49,9 @@ public class ComplaintFormActivity extends AppCompatActivity {
 
         // starting the current intent with
         Intent intent = getIntent();
-        phone = intent.getStringExtra("key"); //phone number from previous activity.
+        Bundle bundle = intent.getExtras();
+        phone = bundle.getString("phone"); //phone number.
+        userToken = bundle.getString("userToken"); // userToken
 
         // setting the phone no from the previous activity in the editText
         edit_phone = findViewById(R.id.edit_phone);
@@ -53,7 +67,7 @@ public class ComplaintFormActivity extends AppCompatActivity {
 
 
         // final submit button:
-        Button submitButton = findViewById(R.id.submitButton);
+        submitButton = findViewById(R.id.submitButton);
         submitButton.setOnClickListener(view -> {
 
             // initializing the input variables to be stored in the database:
@@ -77,12 +91,84 @@ public class ComplaintFormActivity extends AppCompatActivity {
             }
 
             // make a post request to store the in the database:
-
-            // show a message about the success or failure of the POST request: "Complaint Registered Successfully."
-            Toast.makeText(ComplaintFormActivity.this, "Complaint Registered Successfully.", Toast.LENGTH_SHORT).show();
+            addNewComplaint();
+            //disable button to make sure multiple complaints are not registered at a time
+            submitButton.setEnabled(false);
         });
     }
 
+    private void addNewComplaint() {
+        String url = "https://crtsapp.herokuapp.com/api/complaint/";
+        HashMap<String, String> body = new HashMap<>();
+        body.put("name", name);
+        body.put("email", email);
+        body.put("address", address);
+        body.put("c_type", complaint_type);
+        body.put("c_detail", complaint_detail);
+        body.put("date", date);
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                Request.Method.POST,
+                url,
+                new JSONObject(body),
+                response -> {
+                    try {
+                        if(response.getBoolean("success")){
+
+                            Toast.makeText(this, "Complaint Registered Successfully", Toast.LENGTH_SHORT).show();
+                            new android.os.Handler(Looper.getMainLooper()).postDelayed(
+                                    () -> {
+                                        // this function is to add some delay on successful complaint registration
+                                    }, 3000);
+
+                            // Going back to User Home Activity on successful registration:
+                            Intent myIntent = new Intent(ComplaintFormActivity.this, UserHomeActivity.class);
+                            startActivity(myIntent);
+
+                        }else{
+                            Toast.makeText(ComplaintFormActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
+                            submitButton.setEnabled(true);
+                        }
+                    } catch (JSONException jsonException) {
+                        jsonException.printStackTrace();
+                        submitButton.setEnabled(true);
+                    }
+                },
+                error -> {
+
+                    NetworkResponse response = error.networkResponse;
+                    if(error instanceof ServerError && response!=null){
+                        try {
+                            String res = new String(response.data, HttpHeaderParser.parseCharset(response.headers, "utf-8"));
+                            JSONObject obj = new JSONObject(res);
+                            Toast.makeText(ComplaintFormActivity.this, obj.getString("msg"), Toast.LENGTH_SHORT).show();
+
+                        }catch (JSONException | UnsupportedEncodingException jsonException){
+                            jsonException.printStackTrace();
+                        }
+                    }
+                    submitButton.setEnabled(true);
+                }
+        ){
+            @Override
+            public Map<String, String> getHeaders() {
+                HashMap<String, String> headers = new HashMap<>();
+                headers.put("Content-Type", "application/json");
+                headers.put("Authorization", userToken);
+                return headers;
+            }
+        };
+
+        // Adding a retry policy to ensure user can try again to login in case there is an issue with the backend.
+        int socketTime = 3000;  // 3sec time is given to try registering again
+        RetryPolicy retryPolicy = new DefaultRetryPolicy(socketTime,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        jsonObjectRequest.setRetryPolicy(retryPolicy);
+
+        // adding to request queue
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        requestQueue.add(jsonObjectRequest);
+    }
 
 
     // For radio selectors
@@ -90,8 +176,7 @@ public class ComplaintFormActivity extends AppCompatActivity {
         // to get the text from the clicked button of the radio buttons:
         RadioButton complaintTypeButton = findViewById(view.getId());
         complaint_type = complaintTypeButton.getText().toString();
-
-        Toast.makeText(ComplaintFormActivity.this, complaint_type, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, complaint_type, Toast.LENGTH_SHORT).show();
     }
 
     // for date input
@@ -105,15 +190,19 @@ public class ComplaintFormActivity extends AppCompatActivity {
 
         datePickerDialog.show();
     }
-    // for setting date in UI and updating the dat evariable:
+    // for setting date in UI and updating the date variable:
     public void onDateSet(DatePicker datePicker, int y, int m, int d) {
         // If done picking date
-        String date_picked = d + "/" + (m+1) + "/" + y;
+        m = m+1; // m is taken from 0, hence increase by one
+        String dd = (d/10==0?("0"+d):String.valueOf(d));
+        String mm = (m/10==0?("0"+m):String.valueOf(m));
+
+        String date_picked = dd + "/" + mm + "/" + y;
         date = date_picked;
         edit_date.setText(date_picked);
     }
     // email validator:
-    public static boolean isEmailValid(String email){
+    private static boolean isEmailValid(String email){
         String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+
                 "[a-zA-Z0-9_+&*-]+)*@" +
                 "(?:[a-zA-Z0-9-]+\\.)+[a-z" +

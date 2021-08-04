@@ -1,18 +1,40 @@
-<?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:tools="http://schemas.android.com/tools"
-tools:ignore="HardcodedText">
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="HardcodedText">
+<group
+    android:id="@+id/group1"
+    android:checkableBehavior="single"
+    >
+    <item
+        android:title="Home"
+        android:icon="@drawable/ic_home"
+        android:id="@+id/action_home"
+        />
+    <item
+        android:title="Refresh"
+        android:icon="@drawable/ic_refresh"
+        android:id="@+id/action_refresh"
+        />
+    <item
+        android:title="Exit"
+        android:icon="@drawable/ic_exit"
+        android:id="@+id/action_exit"
+        />
+    <item
+        android:title="Help"
+        android:icon="@drawable/ic_help"
+        android:id="@+id/action_help"
+        />
+    <item
+        android:title="Logout"
+        android:icon="@drawable/ic_logout"
+        android:id="@+id/action_logout"
+        />
+    <item
+        android:title="Share App"
+        android:icon="@drawable/ic_share"
+        android:id="@+id/action_share"
+        />
 
-<item
-    android:id="@+id/nav_account"
-    android:title="My Account" />
-
-<item
-    android:id="@+id/nav_settings"
-    android:title="Settings" />
-
-<item
-    android:id="@+id/nav_logout"
-    android:title="Logout" />
-
+</group>
 </menu>

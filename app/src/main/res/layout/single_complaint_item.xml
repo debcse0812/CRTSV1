@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:cardUseCompatPadding="true"
+    app:cardCornerRadius="5dp"
+    android:layout_margin="3dp"
+    android:id="@+id/accordian_title"
+    tools:ignore="HardcodedText">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/arrow"
+            android:src="@drawable/ic_arrow_down"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/cid"
+            android:text="Complaint ID: 11235"
+            android:textColor="#FFF"
+            android:layout_marginRight="40dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="20dp"
+            android:textStyle="bold"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/registration_date"
+            android:text="Registered On: 22/07/2021"
+            android:layout_below="@+id/cid"
+            android:textColor="#FFF"
+            android:layout_marginRight="40dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="20dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/complaint_type"
+            android:text="Complaint Type: Electrical"
+            android:layout_below="@+id/registration_date"
+            android:textColor="#FFF"
+            android:layout_marginRight="40dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="20dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/complaint_detail"
+            android:text="Complaint Detail: This is a complaint "
+            android:layout_below="@+id/complaint_type"
+            android:textColor="#FFF"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:layout_marginRight="40dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="20dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/complaint_status"
+            android:text="Complaint Status: Registered"
+            android:layout_below="@+id/complaint_detail"
+            android:textColor="#FFF"
+            android:layout_marginRight="40dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="20dp"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/accordian_body"
+        android:padding="5dp"
+        android:background="@color/yellow"
+        android:elevation="2dp"
+        android:layout_marginTop="140dp"
+        android:layout_gravity="bottom"
+        android:visibility="gone">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/name"
+            android:textColor="#FFF"
+            android:text="Registered By: Your Name"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="10dp"
+            android:ellipsize="end"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/address"
+            android:textColor="#FFF"
+            android:text="Address: Your Address"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="10dp"
+            android:layout_below="@+id/name"
+            android:ellipsize="end"
+            />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_delete"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:id="@+id/deleteBtn"
+            android:layout_toLeftOf="@+id/name"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_edit"
+            android:layout_toStartOf="@+id/deleteBtn"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:id="@+id/editBtn"/>
+
+
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>
